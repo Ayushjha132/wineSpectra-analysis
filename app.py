@@ -1,12 +1,16 @@
-
 import streamlit as st
 import pandas as pd
-# from pathlib import Path
+import chardet
+from function import overall_data
 
-#datafile
-# df = pd.read_csv('dataset/wine_dataset.csv')
+# decoding csv file format any unknown encoder. 
+def read_csv_auto_encoding(file_path):
+    with open(file_path, 'rb') as f:
+        result = chardet.detect(f.read())
+    data = pd.read_csv(file_path, encoding=result['encoding'])
+    return pd.DataFrame(data)
 
-
+df = read_csv_auto_encoding('dataset/wine_dataset.csv')
 
 # sidebar
 st.sidebar.markdown('# :rainbow[WineSpectra Analysis]')
@@ -16,7 +20,6 @@ sideMenu = st.sidebar.radio(
     "Select an option",
     ("Overall Analysis", "Wine-Varity Analysis", "ML Analysis", "Red-Wine Analysis", "White-Wine Analysis", "Pink & Rosé-Wine Analysis", "Sparkling & Champagne Analysis", "About")
 )
-
 
 # OVERALL ANALYSIS PAGE
 if sideMenu == "Overall Analysis":
@@ -33,10 +36,10 @@ if sideMenu == "Overall Analysis":
             |⠀⣸⣿⣿⣿⣿⣿⣇⠀|
             |⢠⣿⣿⣿⣿⣿⣿⣿⡄|             WineSpectra Analysis:
             |⣼⣿⣿⣿ ⣿⣿⣿⣷|
-            |⣿⣿⣿ S ⣿⣿⣿|             A comprehensive glimpse into the world of 
-            |⣿⣿⣿ U ⣿⣿⣿|             wines, featuring details scraped from wine.
-            |⣿⣿⣿ L ⣿⣿⣿|             covers wine names, color types, prices, 
-            |⣿⣿⣿ A ⣿⣿⣿|             capacities (in milliliters), ratings provided 
+            |⣿⣿⣿ W ⣿⣿⣿|             A comprehensive glimpse into the world of 
+            |⣿⣿⣿ I ⣿⣿⣿|             wines, featuring details scraped from wine.
+            |⣿⣿⣿ N ⣿⣿⣿|             covers wine names, color types, prices, 
+            |⣿⣿⣿ E ⣿⣿⣿|             capacities (in milliliters), ratings provided 
             |⣿⣿⣿⣿⣿⣿⣿⣿⣿|             by site users, the number of ratings received,
             |⣿⣿⣿⣿⣿⣿⣿⣿⣿|             country of origin, alcohol content (ABV), and 
             |⣿⣿⣿⣿⣿⣿⣿⣿⣿|             a list of top wine experts who have reviewed.
@@ -46,26 +49,38 @@ if sideMenu == "Overall Analysis":
            [⠈⠛⠛⠛⠛⠛⠛⠛⠋⠁⠉]
     ''')
 
-    overall,cost,ratings,ratingsnum = st.tabs(["Overall","Cost","Ratings","RatingsNum"])
+    overall,cost,ratings,ratingsnum,abv = st.tabs(["Overall","Cost","Ratings","RatingsNum", "ABV %"])
 
     #overall tab
-
+    over_df = overall_data(df)
+    overall.table(over_df)
 
     #cost tab
-    cost.markdown("### FIVE most costly wines")
-    
-    cost.markdown("### FIVE costly wines")
+    cost.markdown("### 5 most costly wines")
+    costly = df[['Names', 'Prices']].sort_values(by='Prices', ascending=False).head()
+    cost.table(costly)
+
+    cost.markdown("### 5 least costly wines")
+    costly = df[['Names','Prices']].sort_values(by='Prices', ascending=True).head()
+    cost.table(costly)
 
     #ratings tab
     ratings.markdown("#### Top 5 highly rated wines")
-
-
+    rating = df[['Names','Ratings']].sort_values(by='Ratings', ascending=False).head()
+    ratings.table(rating)
     ratings.markdown("*Least rated are not included because of zero ratings.*")
 
     #ratingsnum
     ratingsnum.markdown("#### Top 5 wines with highest ratingsnum")
-
+    ratednum = df[['Names','Ratingsnum']].sort_values(by='Ratingsnum', ascending=False).head()
+    ratingsnum.table(ratednum)
     ratingsnum.markdown('''*Least ratednum are not included because of zero ratings.*''')
+
+    #abv %
+    abv.markdown("#### Top 5 wines with highest ratingsnum")
+    top_abv = df[['Names','ABV %']].sort_values(by='ABV %', ascending=False).head()
+    abv.table(top_abv)
+    abv.markdown('''*Least ABV% are not included because there are wines with zero alcohol.*''')
 
 # VARITY PAGE
 if sideMenu == "Wine-Varity Analysis":
@@ -127,5 +142,6 @@ if sideMenu == "About":
         * numpy
         * pandas
         * streamlit
-        * plotly ''')
+        * plotly 
+        * chardet ''')
     
