@@ -2,5 +2,5 @@ numpy
 pandas
 streamlit
 plotly
-matplotlib.plotly
+matplotlib
 chardet
