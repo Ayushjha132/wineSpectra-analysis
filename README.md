@@ -26,3 +26,18 @@ This dataset was meticulously scraped from wine.com, a popular source for wine e
 * plotly
 * matplotlib
 * chardet
+
+### How to Run Locally:
+Make sure you have python installed locally.
+1. Clone the project
+
+2. Run this command
+    ```
+    pip install streamlit
+    ```
+
+3. Run the app
+
+    ```
+    streamlit run app.py
+    ```
