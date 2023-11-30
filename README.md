@@ -24,3 +24,5 @@ This dataset was meticulously scraped from wine.com, a popular source for wine e
 * pandas
 * streamlit
 * plotly
+* matplotlib
+* chardet
