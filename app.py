@@ -1,8 +1,8 @@
 import streamlit as st
 import pandas as pd
 import chardet
-import plotly.express as px 
-import matplotlib.pyplot as plt
+import plotly.express as px
+
 from function import overall_data, ml_available, ml_record, price
 
 # decoding csv file format any unknown encoder. 
