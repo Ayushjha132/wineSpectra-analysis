@@ -3,6 +3,8 @@ import pandas as pd
 import chardet
 import plotly.express as px
 
+st.set_page_config(page_title="WineSpectra Analysis", page_icon=":wine_glass:")
+
 from function import overall_data, ml_available, ml_record, price
 
 # decoding csv file format any unknown encoder. 
