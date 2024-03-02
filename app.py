@@ -53,7 +53,7 @@ if sideMenu == "Overall Analysis":
            [⠈⠛⠛⠛⠛⠛⠛⠛⠋⠁⠉]
     ''')
 
-    overall,cost,ratings,ratingsnumber,abv = st.tabs(["Overall","Cost","Ratings","ratingsnumber", "ABV %"])
+    overall,cost,ratings,RatingsNum,abv = st.tabs(["Overall","Cost","Ratings","RatingsNum", "ABV %"])
 
     #overall tab
     over_df = overall_data(df)
@@ -74,14 +74,14 @@ if sideMenu == "Overall Analysis":
     ratings.table(rating)
     ratings.markdown("*Least rated are not included because of zero ratings.*")
 
-    #ratingsnumber
-    ratingsnumber.markdown("#### Top 5 wines with highest ratingsnumber")
-    ratednum = df[['Names','ratingsnumber']].sort_values(by='ratingsnumber', ascending=False).head()
-    ratingsnumber.table(ratednum)
-    ratingsnumber.markdown('''*Least ratednum are not included because of zero ratings.*''')
+    #RatingsNum
+    RatingsNum.markdown("#### Top 5 wines with highest RatingsNum")
+    ratednum = df[['Names','RatingsNum']].sort_values(by='RatingsNum', ascending=False).head()
+    RatingsNum.table(ratednum)
+    RatingsNum.markdown('''*Least ratednum are not included because of zero ratings.*''')
 
     #abv %
-    abv.markdown("#### Top 5 wines with highest ratingsnumber")
+    abv.markdown("#### Top 5 wines with highest RatingsNum")
     top_abv = df[['Names','ABV %']].sort_values(by='ABV %', ascending=False).head()
     abv.table(top_abv)
     abv.markdown('''*Least ABV% are not included because there are wines with zero alcohol.*''')
@@ -266,7 +266,7 @@ if sideMenu == "About":
         * Prices: Price of the wine
         * ML: Capacity in milliliters
         * Rating: User-generated rating on the site
-        * ratingsnumber: The number of user ratings
+        * RatingsNum: The number of user ratings
         * Countrys: Country of production
         * ABV: Alcohol by volume (ABV) content
         * Retes: List of top wine experts who have reviewed the wines ''')
